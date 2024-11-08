@@ -1,0 +1,26 @@
+<div id="root">
+    <div class="container card">
+        <section id="timer">
+            <div class="wrapper">
+                <svg id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle id="pmdr-progress-bar" r="100" cx="50" cy="50" fill="transparent" stroke-dasharray="565.48"
+                        stroke-dashoffset="0"></circle>
+                </svg>
+                <div class="wrapper flow" id="timer-content">
+                    <h2 id="pmdr-cycle">1/4</h2>
+                    <h1><time id="pmdr-time">25:00</time></h1>
+                    <h2 id="pmdr-session-type">Pomodoro</h2>
+                </div>
+            </div>
+        </section>
+
+        <section id="controls">
+            <div class="wrapper horizontal-flex controls">
+                <button class="round-button small-button" id="pmdr-button-restart">restart</button>
+                <button class="round-button big-button" id="pmdr-button-start-pause" mode="start">start</button>
+                <button class="round-button small-button" id="pmdr-button-skip">skip</button>
+            </div>
+        </section>
+    </div>
+</div>
