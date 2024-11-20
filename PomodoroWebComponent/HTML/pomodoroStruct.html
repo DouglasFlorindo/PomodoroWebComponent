@@ -1,26 +1,75 @@
-<div id="root">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=pause,play_arrow,replay,settings,skip_next" />
+<div id="pmdr-root" class="" debug="false" dark="false">
     <div class="container card">
         <section id="timer">
             <div class="wrapper">
-                <svg id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                <svg class="center container" id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
                     xmlns="http://www.w3.org/2000/svg">
-                    <circle id="pmdr-progress-bar" r="100" cx="50" cy="50" fill="transparent" stroke-dasharray="565.48"
-                        stroke-dashoffset="0"></circle>
+                    <!-- 
+                    cx & cy = center of svg; 
+                    r = cx || cy - stroke-width / 2;
+                    -->
+                    <circle class="circular-progress-bar" id="pmdr-progress-bar-background" r="95" cx="100" cy="100">
+                    </circle>
+                    <circle class="circular-progress-bar" id="pmdr-progress-bar" r="95" cx="100" cy="100"></circle>
                 </svg>
-                <div class="wrapper flow" id="timer-content">
-                    <h2 id="pmdr-cycle">1/4</h2>
-                    <h1><time id="pmdr-time">25:00</time></h1>
-                    <h2 id="pmdr-session-type">Pomodoro</h2>
+                <div class="vertical-flex absolute-center expand" id="timer-content">
+                    <h2 class="small-text" id="pmdr-cycle">1/4</h2>
+                    <h1 class="big-text"><time id="pmdr-time">25:00</time></h1>
+                    <h2 class="small-text" id="pmdr-session-type">POMODORO</h2>
                 </div>
             </div>
         </section>
 
-        <section id="controls">
+        <section id="controls" class="controls">
             <div class="wrapper horizontal-flex controls">
-                <button class="round-button small-button" id="pmdr-button-restart">restart</button>
-                <button class="round-button big-button" id="pmdr-button-start-pause" mode="start">start</button>
-                <button class="round-button small-button" id="pmdr-button-skip">skip</button>
+                <button title="Restart timer" class="center button round medium-button red-button" id="pmdr-button-restart">
+                    <div class="horizontal-flex">
+                        <span class="material-symbols-rounded">
+                            replay
+                        </span>
+                    </div>
+                </button>
+                <button title="Play/pause timer" class="center button round big-button green-button" id="pmdr-button-start-pause"
+                    mode="start">
+                    <div class="horizontal-flex">
+                        <span class="material-symbols-rounded" id="pmdr-button-start-pause-icon">
+                            play
+                        </span>
+                    </div></button>
+                <button title="Skip session" class="center button round medium-button blue-button" id="pmdr-button-skip">
+                    <div class="horizontal-flex">
+                        <span class="material-symbols-rounded">
+                            skip_next
+                        </span>
+                    </div>
+                </button>
+                <button title="Settings" class="button round" id="pmdr-button-settings"><span class="material-symbols-rounded">
+                        settings
+                    </span></button>
             </div>
         </section>
     </div>
+
+    <dialog id="pmdr-dialog-settings" class="container card">
+        <div>
+            <h1>Settings</h1>
+            <form>
+                <h2>Duration (min)</h2>
+                <label for="">POMODORO</label>
+                <input setting="pomodoroLengthMin" type="number" value="25">
+
+                <label>SHORTBREAK</label>
+                <input setting="shortBreakLengthMin" type="number" value="5">
+
+                <label>LONGBREAK</label>
+                <input setting="longBreakLengthMin" type="number" value="15">
+
+                <button type="submit" class="red-button">Reset to Default</button>
+                <button type="submit" class="green-button">Apply</button>
+            </form>
+            <button class="button round">x</button>
+        </div>
+    </dialog>
 </div>
