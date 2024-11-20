@@ -1,0 +1,268 @@
+:host {
+    --flow-space: 0.5em;
+    --margin-space: 0.5em;
+    --padding-space: 0.5em;
+
+    --color-not-white: 250, 250, 250;
+    --color-not-white-complement: 225, 230, 240;
+
+    --color-not-black: 10, 10, 10;
+    --color-light-grey: 200, 200, 200;
+
+    --color-light-green: 80, 200, 160;
+    --color-light-red: 205, 90, 110;
+    --color-light-blue: 90, 145, 205;
+
+    --title-font: 'Jua', 'Courier New', Courier, monospace;
+    --body-font: 'Comic Neue', 'Courier New', Courier, monospace;
+}
+
+/* ===== Composition ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+}
+
+* {
+    color: rgba(var(--color-not-black), 1);
+}
+
+[dark="true"] * {
+    color: rgba(var(--color-not-white), 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--title-font);
+}
+
+p,
+a,
+span,
+label,
+button {
+    font-family: var(--body-font);
+}
+
+.flow>*+* {
+    margin-top: var(--flow-space, 1em);
+}
+
+/* ===== Utility ===== */
+
+.container {
+    width: fit-content;
+    margin: 0 auto;
+    position: relative;
+}
+
+.wrapper {
+    margin: auto;
+    padding: var(--padding-space, 1em);
+}
+
+.expand {
+    height: 100%;
+    width: 100%;
+}
+
+.center {
+    display: inline-block;
+    align-content: center;
+    vertical-align: middle;
+}
+
+.horizontal-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.vertical-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50%;
+}
+
+.bold {
+    font-size: bold;
+}
+
+.red-bg {
+    background-color: rgba(var(--color-light-red), 1);
+}
+
+.green-bg {
+    background-color: rgba(var(--color-light-green), 1);
+}
+
+.blue-bg {
+    background-color: rgba(var(--color-light-blue), 1);
+}
+
+.round {
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.small-text {
+    font-size: 1rem;
+}
+
+.big-text {
+    font-size: 3rem;
+}
+
+
+/* ===== Block ===== */
+
+
+.card {
+    border-radius: 1em;
+    box-shadow: rgba(var(--color-light-grey), 0.75) 0 0 15px 0,
+        rgba(var(--color-light-grey), 1) 0 5px 0 0;
+    background-color: rgba(var(--color-not-white, 1));
+    background-image: linear-gradient(to bottom, rgb(var(--color-not-white)), rgb(var(--color-not-white-complement)));
+    padding: 1em;
+}
+
+[dark="true"] .card {
+    box-shadow: rgba(0, 0, 0, 0.75) 0 0 15px 0,
+        rgba(0, 0, 0, 1) 0 5px 0 0;
+    background-color: rgba(var(--color-not-black, 1));
+}
+
+.controls {
+    justify-content: space-between;
+}
+
+.button {
+    padding: var(--padding-space);
+    background: unset;
+}
+
+.small-button {
+    min-width: 2.5em;
+    min-height: 2.5em;
+    max-width: 2.5em;
+    max-height: 2.5em;
+}
+
+.medium-button {
+    min-width: 3.5em;
+    min-height: 3.5em;
+    max-width: 3.5em;
+    max-height: 3.5em;
+}
+
+.big-button {
+    min-width: 5em;
+    min-height: 5em;
+    max-width: 5em;
+    max-height: 5em;
+}
+
+.red-button {
+    background-color: rgba(var(--color-light-red), 1);
+    box-shadow: rgba(0, 0, 0, 0.25) 0 4px 0 0,
+        rgba(var(--color-light-red)) 0 4px 0 0,
+        rgba(0, 0, 0, 0.75) 0 4px 5px 0;
+}
+
+.green-button {
+    background-color: rgba(var(--color-light-green), 1);
+    box-shadow: rgba(0, 0, 0, 0.25) 0 4px 0 0,
+        rgba(var(--color-light-green)) 0 4px 0 0,
+        rgba(0, 0, 0, 0.75) 0 4px 5px 0;
+}
+
+.blue-button {
+    background-color: rgba(var(--color-light-blue), 1);
+    box-shadow: rgba(0, 0, 0, 0.25) 0 4px 0 0,
+        rgba(var(--color-light-blue)) 0 4px 0 0,
+        rgba(0, 0, 0, 0.75) 0 4px 5px 0;
+}
+
+.red-button:active,
+.green-button:active,
+.blue-button:active {
+    box-shadow: unset;
+    transform: translateY(4px);
+
+}
+
+#timer {
+    position: relative;
+}
+
+#pmdr-button-settings {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: var(--margin-space);
+}
+
+.circular-progress-bar {
+    stroke-dasharray: calc(2 * pi * 95px);
+    shape-rendering: geometricPrecision;
+    fill: transparent;
+    stroke-width: 10px;
+    stroke-linecap: round;
+
+}
+
+.circular-progress-bar:first-of-type {
+    stroke: rgba(var(--color-light-grey));
+}
+
+.circular-progress-bar:last-of-type {
+    transition: stroke-dashoffset 0.5s;
+    transition-timing-function: ease-out;
+    stroke: rgba(var(--color-light-green));
+}
+
+.material-symbols-rounded {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+/* DEBUG */
+
+[debug="true"] * {
+    border: dotted 1px red;
+}
+
+
+
+.fundo {
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+  radial-gradient(circle, white 20%, transparent 21%),
+    linear-gradient(to bottom, #ffffff 20%, #ff97cb);
+  background-size: 50px 50px, 100% 100%; 
+  background-position: 0 0, 0 0;
+}
