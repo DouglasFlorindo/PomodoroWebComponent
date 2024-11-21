@@ -9,6 +9,10 @@ class PomodoroClock extends HTMLElement {
 
         this.elements = {};
 
+        //Loads external audio
+        this.alarmAudio = new Audio('/PomodoroWebComponent/Resources/Audio/alarm.ogg');
+        this.alarmAudio.volume = 0.5;
+
         //Loads external fonts
         const fonts = document.createElement("style");
         fonts.textContent = "/* Code injected by <pomodoro-clock> */ @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap'); @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');";
@@ -17,7 +21,7 @@ class PomodoroClock extends HTMLElement {
         //Loads external icons 
         const icons = document.createElement("link");
         icons.setAttribute("rel", "stylesheet");
-        icons.setAttribute("href", "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=pause,play_arrow,replay,settings,skip_next");
+        icons.setAttribute("href", "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close,pause,play_arrow,replay,settings,skip_next");
         document.head.appendChild(icons);
 
         //Loads external css
@@ -83,6 +87,7 @@ class PomodoroClock extends HTMLElement {
 
     initWebElements() {
         try {
+            //HTML Elements
             this.elements = {
                 textTimer: this.getElement("#pmdr-time"),
                 textSessionType: this.getElement("#pmdr-session-type"),
@@ -94,6 +99,7 @@ class PomodoroClock extends HTMLElement {
                 buttonSkip: this.getElement("#pmdr-button-skip"),
                 buttonSettings: this.getElement("#pmdr-button-settings"),
                 dialogSettings: this.getElement("#pmdr-dialog-settings"),
+                buttonCloseDialogSettins: this.getElement("#pmdr-button-close-dialog-settings"),
                 formSettings: this.getElement("#pmdr-form-settings"),
                 inputNumCycles: this.getElement('[setting="numCycles"]'),
                 inputPomodoroLengthMin: this.getElement('[setting="pomodoroLengthMin"]'),
@@ -102,9 +108,6 @@ class PomodoroClock extends HTMLElement {
                 inputAutoStart: this.getElement('[setting="autoStart"]'),
                 buttonResetSettings: this.getElement("#pmdr-button-reset-settings")
             };
-
-
-            // this.dialogSettingsElement.showModal()
 
             //Events
             this.elements.buttonStartPause.addEventListener("click", () => {
@@ -115,6 +118,7 @@ class PomodoroClock extends HTMLElement {
             this.elements.buttonSettings.addEventListener("click", () => this.elements.dialogSettings.showModal());
             this.elements.formSettings.addEventListener("submit", this.applyFormSettings.bind(this));
             this.elements.buttonResetSettings.addEventListener("click", this.resetSettingsFormToDefault.bind(this));
+            this.elements.buttonCloseDialogSettins.addEventListener("click", () => this.elements.dialogSettings.close())
 
         } catch (error) {
             console.error(error)
@@ -160,16 +164,6 @@ class PomodoroClock extends HTMLElement {
     }
 
 
-    updateSettingsForm() {
-
-        try {
-
-        } catch (error) {
-            console.error(`Error updating form settings: ${error}`);
-        }
-    }
-
-
     resetSettingsFormToDefault() {
         try {
             this.elements.inputNumCycles.value = 4;
@@ -185,10 +179,10 @@ class PomodoroClock extends HTMLElement {
 
     applyFormSettings() {
         try {
-            this.configs.numCycles = this.elements.inputNumCycles.value || 4;
-            this.configs.pomodoroLengthMin = this.elements.inputPomodoroLengthMin.value || 25;
-            this.configs.shortBreakLengthMin = this.elements.inputShortBreakLengthMin.value || 5;
-            this.configs.longBreakLengthMin = this.elements.inputLongBreakLengthMin.value || 15;
+            this.configs.numCycles = parseInt(this.elements.inputNumCycles.value) || 4;
+            this.configs.pomodoroLengthMin = parseInt(this.elements.inputPomodoroLengthMin.value) || 25;
+            this.configs.shortBreakLengthMin = parseInt(this.elements.inputShortBreakLengthMin.value) || 5;
+            this.configs.longBreakLengthMin = parseInt(this.elements.inputLongBreakLengthMin.value) || 15;
             this.configs.autoStart = this.elements.inputAutoStart.checked || false;
 
 
@@ -234,6 +228,7 @@ class PomodoroClock extends HTMLElement {
 
             this.intervalId = setInterval(() => {
                 if (this.remainingSessionTimeMs <= 0) {
+                    this.alarmAudio.play();
                     this.pauseClock();
                     this.endSessionHandler();
                     return
@@ -289,39 +284,45 @@ class PomodoroClock extends HTMLElement {
             \nRemaining total time: ${this.remainingTotalTimeMs / 60 / 1000}
             \nCurrent cycle: ${this.currentCycleNum}`);
 
-        //Doesn't auto start in the first session.
+        //Don't auto start in the first session.
         if (this.currentCycleNum === 1 && this.currentSessionType === this.sessionTypes.POMODORO) return;
         if (this.configs.autoStart) this.startClock();
     }
 
 
     endSessionHandler() {
-        if (this.remainingSessionTimeMs > 0) this.remainingTotalTimeMs -= this.remainingSessionTimeMs; // Subtract remaining time if the session is ended earlier.
-
-        if (this.currentCycleNum <= this.configs.numCycles) {
-
-            if (this.currentSessionType == this.sessionTypes.POMODORO) {
-                this.loadSession(this.currentCycleNum === this.configs.numCycles ? this.sessionTypes.LONGBREAK : this.sessionTypes.SHORTBREAK);
-            } else {
-
-                if (this.currentCycleNum == this.configs.numCycles) {
-                    this.restartClock();
-                    return;
+        try {
+            if (this.remainingSessionTimeMs > 0) this.remainingTotalTimeMs -= this.remainingSessionTimeMs; // Subtract remaining time if the session is ended earlier.
+            
+            if (this.currentCycleNum <= this.configs.numCycles) {
+    
+                if (this.currentSessionType === this.sessionTypes.POMODORO) {
+                    this.loadSession(this.currentCycleNum === this.configs.numCycles ? this.sessionTypes.LONGBREAK : this.sessionTypes.SHORTBREAK);
+                } else {
+    
+                    if (this.currentCycleNum === this.configs.numCycles) {
+                        this.restartClock();
+                        return;
+                    }
+    
+                    this.currentCycleNum += 1;
+                    this.loadSession(this.sessionTypes.POMODORO)
                 }
-
-                this.currentCycleNum += 1;
-                this.loadSession(this.sessionTypes.POMODORO)
+    
+                this.updateTimeElements();
+                return
+    
             }
-
-            this.updateTimeElements();
-            return
-
+    
+            this.restartClock();
+        } catch (error) {
+            console.error(`Error ending session: ${error}`);
         }
 
-        this.restartClock();
     }
 
     //#endregion
+
 }
 
 customElements.define('pomodoro-clock', PomodoroClock);
