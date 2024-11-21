@@ -10,7 +10,7 @@ class PomodoroClock extends HTMLElement {
         this.elements = {};
 
         //Loads external audio
-        this.alarmAudio = new Audio('/PomodoroWebComponent/Resources/Audio/alarm.ogg');
+        this.alarmAudio = new Audio('PomodoroWebComponent/Resources/Audio/alarm.ogg');
 
         //Loads external fonts
         const fonts = document.createElement("style");
