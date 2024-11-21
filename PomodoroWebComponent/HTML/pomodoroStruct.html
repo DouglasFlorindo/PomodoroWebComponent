@@ -55,18 +55,24 @@
     <dialog id="pmdr-dialog-settings" class="container card">
         <div>
             <h1>Settings</h1>
-            <form>
+            <form id="pmdr-form-settings" method="dialog">
                 <h2>Duration (min)</h2>
-                <label for="">POMODORO</label>
-                <input setting="pomodoroLengthMin" type="number" value="25">
+                <label for="pmdr-input-pomodoro-lenght">POMODORO</label>
+                <input id="pmdr-input-pomodoro-lenght" setting="pomodoroLengthMin" type="number" value="25">
 
-                <label>SHORTBREAK</label>
-                <input setting="shortBreakLengthMin" type="number" value="5">
+                <label for="pmdr-input-short-break-lenght">SHORTBREAK</label>
+                <input id="pmdr-input-short-break-lenght" setting="shortBreakLengthMin" type="number" value="5">
 
-                <label>LONGBREAK</label>
-                <input setting="longBreakLengthMin" type="number" value="15">
+                <label for="pmdr-input-long-break-lenght">LONGBREAK</label>
+                <input id="pmdr-input-long-break-lenght" setting="longBreakLengthMin" type="number" value="15">
 
-                <button type="submit" class="red-button">Reset to Default</button>
+                <label for="pmdr-input-num-cycles">NUMBER OF CYCLES</label>
+                <input id="pmdr-input-num-cycles" setting="numCycles" type="number" value="4">
+
+                <label for="pmdr-input-autostart">AUTOSTART</label>
+                <input id="pmdr-input-autostart" setting="autoStart" type="checkbox">
+
+                <button id="pmdr-button-reset-settings" type="button" class="red-button">Reset to Default</button>
                 <button type="submit" class="green-button">Apply</button>
             </form>
             <button class="button round">x</button>
