@@ -11,7 +11,6 @@ class PomodoroClock extends HTMLElement {
 
         //Loads external audio
         this.alarmAudio = new Audio('/PomodoroWebComponent/Resources/Audio/alarm.ogg');
-        this.alarmAudio.volume = 0.5;
 
         //Loads external fonts
         const fonts = document.createElement("style");
@@ -59,7 +58,8 @@ class PomodoroClock extends HTMLElement {
             pomodoroLengthMin: configs.pomodoroLengthMin || 25,
             shortBreakLengthMin: configs.shortBreakLengthMin || 5,
             longBreakLengthMin: configs.longBreakLengthMin || 15,
-            autoStart: configs.autoStart || false
+            autoStart: configs.autoStart || false,
+            alarmVolume: configs.alarmVolume || 0
         }
 
         this.sessionTypes = {
@@ -87,7 +87,7 @@ class PomodoroClock extends HTMLElement {
 
     initWebElements() {
         try {
-            //HTML Elements
+            //Elements
             this.elements = {
                 textTimer: this.getElement("#pmdr-time"),
                 textSessionType: this.getElement("#pmdr-session-type"),
@@ -106,8 +106,11 @@ class PomodoroClock extends HTMLElement {
                 inputShortBreakLengthMin: this.getElement('[setting="shortBreakLengthMin"]'),
                 inputLongBreakLengthMin: this.getElement('[setting="longBreakLengthMin"]'),
                 inputAutoStart: this.getElement('[setting="autoStart"]'),
+                inputAlarmVolume: this.getElement('[setting="alarmVolume"]'),
                 buttonResetSettings: this.getElement("#pmdr-button-reset-settings")
             };
+
+            this.elements.dialogSettings.showModal()
 
             //Events
             this.elements.buttonStartPause.addEventListener("click", () => {
@@ -171,6 +174,7 @@ class PomodoroClock extends HTMLElement {
             this.elements.inputShortBreakLengthMin.value = 5;
             this.elements.inputLongBreakLengthMin.value = 15;
             this.elements.inputAutoStart.checked = false;
+            this.elements.inputAlarmVolume.value = 0;
         } catch (error) {
             console.error(`Error reseting settings: ${error}`);
         }
@@ -184,7 +188,7 @@ class PomodoroClock extends HTMLElement {
             this.configs.shortBreakLengthMin = parseInt(this.elements.inputShortBreakLengthMin.value) || 5;
             this.configs.longBreakLengthMin = parseInt(this.elements.inputLongBreakLengthMin.value) || 15;
             this.configs.autoStart = this.elements.inputAutoStart.checked || false;
-
+            this.configs.alarmVolume = parseFloat(this.elements.inputAlarmVolume.value) || 0;
 
         } catch (error) {
             console.error(`Error applying settings: ${error}`);
@@ -210,6 +214,9 @@ class PomodoroClock extends HTMLElement {
             );
             this.remainingTotalTimeMs = this.totalTimeMs;
             this.remainingSessionTimeMs = this.configs.pomodoroLengthMin * 60 * 1000;
+            this.alarmAudio.volume = this.configs.alarmVolume;
+            console.warn(this.alarmAudio.volume);
+            
 
             this.loadSession(this.sessionTypes.POMODORO);
             this.updateTimeElements();
