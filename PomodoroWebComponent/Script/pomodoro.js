@@ -24,7 +24,7 @@ class PomodoroClock extends HTMLElement {
         document.head.appendChild(icons);
 
         //Loads external css
-        fetch('/PomodoroWebComponent/Style/pomodoroStyle.css')
+        fetch('./PomodoroWebComponent/Style/pomodoroStyle.css')
             .then(response => response.text())
             .then(css => {
                 const style = document.createElement('style');
@@ -36,7 +36,7 @@ class PomodoroClock extends HTMLElement {
             });
 
         //Loads external html
-        fetch('/PomodoroWebComponent/HTML/pomodoroStruct.html')
+        fetch('./PomodoroWebComponent/HTML/pomodoroStruct.html')
             .then(response => response.text())
             .then(html => {
                 const body = document.createElement('div');
@@ -215,7 +215,6 @@ class PomodoroClock extends HTMLElement {
             this.remainingTotalTimeMs = this.totalTimeMs;
             this.remainingSessionTimeMs = this.configs.pomodoroLengthMin * 60 * 1000;
             this.alarmAudio.volume = this.configs.alarmVolume;
-            console.warn(this.alarmAudio.volume);
             
 
             this.loadSession(this.sessionTypes.POMODORO);
