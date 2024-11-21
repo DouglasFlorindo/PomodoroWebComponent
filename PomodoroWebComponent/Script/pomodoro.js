@@ -110,7 +110,7 @@ class PomodoroClock extends HTMLElement {
                 buttonResetSettings: this.getElement("#pmdr-button-reset-settings")
             };
 
-            this.elements.dialogSettings.showModal()
+            // this.elements.dialogSettings.showModal()
 
             //Events
             this.elements.buttonStartPause.addEventListener("click", () => {
