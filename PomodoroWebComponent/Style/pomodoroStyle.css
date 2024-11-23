@@ -1,20 +1,3 @@
-
-
-
-
-
-
-/* tem que ajeitar o input de checkbox porque não dá pra selecionar ele pelo tab
-
-burro
-*/
-
-
-
-
-
-
-
 :host {
     --flow-space: 1.5em;
     --margin-space: 1em;
@@ -34,8 +17,8 @@ burro
     --color-light-red: 205, 90, 110;
     --color-light-blue: 90, 145, 205;
 
-    --color-dark-green: 10, 130, 100;
-    --color-dark-red: 165, 40, 60;
+    --color-dark-green: 0, 160, 120;
+    --color-dark-red: 180, 25, 50;
     --color-dark-blue: 35, 100, 180;
 
     --title-font: 'Jua', 'Courier New', Courier, monospace;
