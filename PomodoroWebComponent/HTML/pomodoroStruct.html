@@ -1,131 +1,163 @@
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close,pause,play_arrow,replay,settings,skip_next" />
-<div id="pmdr-root" class="" debug="false" dark="false">
+    
+<div id="pmdr-root" class="" debug="false" dark="true">
     <div class="container card">
-        <section class="container">
-            <div class="wrapper">
-                <svg class="center container" id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <!-- 
+        <div class="flow wrapper">
+            <section class="container">
+                <div class="">
+                    <svg class="center container" id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <!-- 
                     cx & cy = center of svg; 
                     r = cx || cy - stroke-width / 2;
                     -->
-                    <circle class="circular-progress-bar" id="pmdr-progress-bar-background" r="95" cx="100" cy="100">
-                    </circle>
-                    <circle class="circular-progress-bar" id="pmdr-progress-bar" r="95" cx="100" cy="100"></circle>
-                </svg>
-                <div class="vertical-flex absolute-center expand" id="timer-content">
-                    <h2 class="small-text" id="pmdr-cycle">1/4</h2>
-                    <h1 class="big-text"><time id="pmdr-time">25:00</time></h1>
-                    <h2 class="small-text" id="pmdr-session-type">POMODORO</h2>
+                        <circle class="circular-progress-bar" id="pmdr-progress-bar-background" r="95" cx="100"
+                            cy="100">
+                        </circle>
+                        <circle class="circular-progress-bar" id="pmdr-progress-bar" r="95" cx="100" cy="100"></circle>
+                    </svg>
+                    <div class="vertical-flex absolute-center expand" id="timer-content">
+                        <h2 class="small-text" id="pmdr-cycle">1/4</h2>
+                        <h1 class="big-text"><time id="pmdr-time">25:00</time></h1>
+                        <h2 class="small-text" id="pmdr-session-type">POMODORO</h2>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="controls" class="controls">
-            <div class=" wrapper horizontal-flex space-between">
-                <button title="Restart timer" class="center button circular medium-button red-button"
-                    id="pmdr-button-restart">
-                    <div class="horizontal-flex">
-                        <span class="material-symbols-rounded button-icon">
-                            replay
-                        </span>
-                    </div>
-                </button>
-                <button title="Play/pause timer" class="center button circular big-button green-button"
-                    id="pmdr-button-start-pause" mode="start">
-                    <div class="horizontal-flex">
-                        <span class="material-symbols-rounded button-icon" id="pmdr-button-start-pause-icon">
-                            play
-                        </span>
-                    </div>
-                </button>
-                <button title="Skip session" class="center button circular medium-button blue-button"
-                    id="pmdr-button-skip">
-                    <div class="horizontal-flex">
-                        <span class="material-symbols-rounded button-icon">
-                            skip_next
-                        </span>
-                    </div>
-                </button>
-                <button title="Settings" class="button circular left-top-corner-button" id="pmdr-button-settings">
-                    <div class="wrapper">
-                        <span class="material-symbols-rounded">
-                            settings
-                        </span>
-                    </div>
-
-                </button>
-            </div>
-        </section>
+            <section id="controls" class="controls">
+                <div class="horizontal-flex space-between">
+                    <button title="Restart timer" class="center button circular medium-button red-button"
+                        id="pmdr-button-restart">
+                        <div class="horizontal-flex">
+                            <span class="material-symbols-rounded button-icon">
+                                replay
+                            </span>
+                        </div>
+                    </button>
+                    <button title="Play/pause timer" class="center button circular big-button green-button"
+                        id="pmdr-button-start-pause" mode="start">
+                        <div class="horizontal-flex">
+                            <span class="material-symbols-rounded button-icon" id="pmdr-button-start-pause-icon">
+                                play
+                            </span>
+                        </div>
+                    </button>
+                    <button title="Skip session" class="center button circular medium-button blue-button"
+                        id="pmdr-button-skip">
+                        <div class="horizontal-flex">
+                            <span class="material-symbols-rounded button-icon">
+                                skip_next
+                            </span>
+                        </div>
+                    </button>
+                    <button title="Settings" class="wrapper  left-top-corner-button" id="pmdr-button-settings">
+                        <div class="center circular small-button">
+                            <div class="horizontal-flex">
+                                <span class="material-symbols-rounded">
+                                    settings
+                                </span>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </div>
     </div>
 
-    <dialog id="pmdr-dialog-settings" class="container expand wrapper">
-        <div class="container card">
-            <h1>Settings</h1>
-            <form class="" id="pmdr-form-settings" method="dialog">
-                <div class="vertical-grid">
-                    <h2>Duration (min)</h2>
-                    <div class="horizontal-grid same-size-grid">
-                        <div>
-                            <label for="pmdr-input-pomodoro-lenght">POMODORO</label>
-                            <input id="pmdr-input-pomodoro-lenght" setting="pomodoroLengthMin" type="number" value="25">
-                        </div>
-
-                        <div>
-                            <label for="pmdr-input-short-break-lenght">SHORTBREAK</label>
-                            <input id="pmdr-input-short-break-lenght" setting="shortBreakLengthMin" type="number"
-                                value="5">
-                        </div>
-
-                        <div>
-                            <label for="pmdr-input-long-break-lenght">LONGBREAK</label>
-                            <input id="pmdr-input-long-break-lenght" setting="longBreakLengthMin" type="number"
-                                value="15">
-                        </div>
-                    </div>
-
-                    <div class="horizontal-grid same-size-grid">
-                        <div>
-                            <label for="pmdr-input-num-cycles">Nº OF CYCLES</label>
-                            <input id="pmdr-input-num-cycles" setting="numCycles" type="number" value="4">
-                        </div>
-
-                        <div>
-                            <label for="pmdr-input-autostart">AUTOSTART</label>
-                            <input id="pmdr-input-autostart" setting="autoStart" type="checkbox">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="pmdr-input-alarm-volume">ALARM VOLUME</label>
-                        <input id="pmdr-input-alarm-volume" setting="alarmVolume" type="range" min="0" max="1"
-                            step="0.1" value="0">
-                    </div>
+    <dialog id="pmdr-dialog-settings" class="container wrapper expand">
+        <div class="container card settings-dialog">
+            <div class="flow wrapper">
+                <div class="">
+                    <h1>Settings</h1>
                 </div>
 
-                <div class="wrapper horizontal-flex space-between">
-                    <button id="pmdr-button-reset-settings" type="button" class="button rounded red-button">
-                        <div class="">
-                            Reset to Default
-                        </div>
-                    </button>
-                    <button type="submit" class="button rounded green-button">
-                        <div class="">
-                            Apply
-                        </div>
-                    </button>
-                </div>
+                <form class="flow" id="pmdr-form-settings" method="dialog">
+                    <section>
+                        <div class="flow">
+                            <div class="vertical-grid">
+                                <h2 class="sub-title">Duration (Min)</h2>
+                                <div class="horizontal-grid same-size-grid">
+                                    <div class="vertical-grid">
+                                        <label for="pmdr-input-pomodoro-lenght">Pomodoro</label>
+                                        <input class="rounded slot number-input" id="pmdr-input-pomodoro-lenght"
+                                            setting="pomodoroLengthMin" type="number" value="25">
+                                    </div>
 
-            </form>
-            <button class="button round left-top-corner-button" id="pmdr-button-close-dialog-settings">
-                <div class="wrapper">
-                    <span class="material-symbols-rounded">
-                        close
-                    </span>
-                </div>
+                                    <div class="vertical-grid">
+                                        <label for="pmdr-input-short-break-lenght">Short Break</label>
+                                        <input class="rounded slot number-input" id="pmdr-input-short-break-lenght"
+                                            setting="shortBreakLengthMin" type="number" value="5">
+                                    </div>
 
+                                    <div class="vertical-grid">
+                                        <label for="pmdr-input-long-break-lenght">Long Break</label>
+                                        <input class="rounded slot number-input" id="pmdr-input-long-break-lenght"
+                                            setting="longBreakLengthMin" type="number" value="15">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="horizontal-flex space-between">
+                                <label class="" for="pmdr-input-num-cycles"><h2 class="sub-title">Nº of Cycles</h2></label>
+                                <input class="rounded slot number-input" id="pmdr-input-num-cycles" setting="numCycles"
+                                    type="number" value="4">
+                            </div>
+
+                            <div class="horizontal-flex space-between">
+                                <label for="pmdr-input-autostart"><h2 class="sub-title">Auto Start</h2></label>
+                                <div class="switch-input">
+                                    <input class="no-display" id="pmdr-input-autostart" setting="autoStart" type="checkbox">
+                                    <label class="slot" aria-label="" for="pmdr-input-autostart">
+                                        
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="horizontal-flex space-between">
+                                <label for="pmdr-input-alarm-volume"><h2 class="sub-title">Alarm Volume</h2></label>
+                                <input id="pmdr-input-alarm-volume" setting="alarmVolume" type="range" min="0" max="1"
+                                    step="0.1" value="0">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="controls">
+                        <div>
+                            <div class="horizontal-flex space-between">
+                                <button id="pmdr-button-reset-settings" type="button" class="button rounded red-button">
+                                    <div class="bold">
+                                        Reset to Default
+                                    </div>
+                                </button>
+                                <button type="submit" class="button rounded green-button">
+                                    <div class="bold">
+                                        Apply
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </form>
+
+            </div>
+
+            <button title="Close settings" class="wrapper  left-top-corner-button" id="pmdr-button-close-dialog-settings">
+                <div class="center circular small-button">
+                    <div class="horizontal-flex">
+                        <span class="material-symbols-rounded">
+                            close
+                        </span>
+                    </div>
+                </div>
             </button>
+
         </div>
     </dialog>
 </div>
