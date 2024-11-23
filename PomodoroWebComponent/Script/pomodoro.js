@@ -59,7 +59,8 @@ class PomodoroClock extends HTMLElement {
             shortBreakLengthMin: configs.shortBreakLengthMin || 5,
             longBreakLengthMin: configs.longBreakLengthMin || 15,
             autoStart: configs.autoStart || false,
-            alarmVolume: configs.alarmVolume || 0
+            alarmVolume: configs.alarmVolume || 0,
+            colorMode: configs.colorMode || "light"
         }
 
         this.sessionTypes = {
@@ -89,6 +90,7 @@ class PomodoroClock extends HTMLElement {
         try {
             //Elements
             this.elements = {
+                root: this.getElement("#pmdr-root"),
                 textTimer: this.getElement("#pmdr-time"),
                 textSessionType: this.getElement("#pmdr-session-type"),
                 textCycle: this.getElement("#pmdr-cycle"),
@@ -107,11 +109,13 @@ class PomodoroClock extends HTMLElement {
                 inputLongBreakLengthMin: this.getElement('[setting="longBreakLengthMin"]'),
                 inputAutoStart: this.getElement('[setting="autoStart"]'),
                 inputSwitchAutoStart: this.getElement("#pmdr-input-switch-autostart"),
+                inputColorMode: this.getElement('[setting="colorMode"]'),
+                inputSwitchColorMode: this.getElement("#pmdr-input-switch-colormode"),
                 inputAlarmVolume: this.getElement('[setting="alarmVolume"]'),
                 buttonResetSettings: this.getElement("#pmdr-button-reset-settings")
             };
 
-            this.elements.dialogSettings.showModal()
+            // this.elements.dialogSettings.showModal()
 
             //Events
             this.elements.buttonStartPause.addEventListener("click", () => {
@@ -119,11 +123,13 @@ class PomodoroClock extends HTMLElement {
             });
             this.elements.buttonRestart.addEventListener("click", this.restartClock.bind(this));
             this.elements.buttonSkip.addEventListener("click", this.endSessionHandler.bind(this));
-            this.elements.buttonSettings.addEventListener("click", () => this.elements.dialogSettings.showModal());
+            // this.elements.buttonSettings.addEventListener("click", () => this.elements.dialogSettings.showModal());
             this.elements.formSettings.addEventListener("submit", this.applyFormSettings.bind(this));
             this.elements.buttonResetSettings.addEventListener("click", this.resetSettingsFormToDefault.bind(this));
-            this.elements.buttonCloseDialogSettins.addEventListener("click", () => this.elements.dialogSettings.close())
-            this.elements.inputSwitchAutoStart.addEventListener("keypress", () => this.elements.inputAutoStart.click());            
+            // this.elements.buttonCloseDialogSettins.addEventListener("click", () => this.elements.dialogSettings.close())
+            this.elements.inputSwitchAutoStart.addEventListener("keypress", () => this.elements.inputAutoStart.click());
+            this.elements.inputSwitchColorMode.addEventListener("keypress", () => this.elements.inputColorMode.click());
+            this.elements.dialogSettings.addEventListener("beforetoggle", this.updateFormSettings.bind(this));
 
         } catch (error) {
             console.error(error)
@@ -169,6 +175,22 @@ class PomodoroClock extends HTMLElement {
     }
 
 
+    updateFormSettings() {
+        try {
+            this.elements.inputNumCycles.value = this.configs.numCycles;
+            this.elements.inputPomodoroLengthMin.value = this.configs.pomodoroLengthMin;
+            this.elements.inputShortBreakLengthMin.value = this.configs.shortBreakLengthMin;
+            this.elements.inputLongBreakLengthMin.value = this.configs.longBreakLengthMin;
+            this.elements.inputAutoStart.checked = this.configs.autoStart;
+            this.elements.inputColorMode.checked = this.configs.colorMode === "dark" ? true : false;
+            this.elements.inputAlarmVolume.value = this.configs.alarmVolume;
+        } catch (error) {
+            console.error(`Error updating settings form: ${error}`);
+            
+        }
+    }
+
+
     resetSettingsFormToDefault() {
         try {
             this.elements.inputNumCycles.value = 4;
@@ -176,6 +198,7 @@ class PomodoroClock extends HTMLElement {
             this.elements.inputShortBreakLengthMin.value = 5;
             this.elements.inputLongBreakLengthMin.value = 15;
             this.elements.inputAutoStart.checked = false;
+            this.elements.inputColorMode.checked = false;
             this.elements.inputAlarmVolume.value = 0;
         } catch (error) {
             console.error(`Error reseting settings: ${error}`);
@@ -190,13 +213,33 @@ class PomodoroClock extends HTMLElement {
             this.configs.shortBreakLengthMin = parseInt(this.elements.inputShortBreakLengthMin.value) || 5;
             this.configs.longBreakLengthMin = parseInt(this.elements.inputLongBreakLengthMin.value) || 15;
             this.configs.autoStart = this.elements.inputAutoStart.checked || false;
+            this.configs.colorMode = this.elements.inputColorMode.checked ? "dark" : "light";
             this.configs.alarmVolume = parseFloat(this.elements.inputAlarmVolume.value) || 0;
-
         } catch (error) {
             console.error(`Error applying settings: ${error}`);
         }
 
         this.restartClock();
+    }
+
+
+    setColorMode(colorMode) {
+        try {
+            switch (colorMode) {
+                case "light":
+                    this.elements.root.setAttribute("dark", "false");
+                    this.configs.colorMode = colorMode;
+                    break;
+                case "dark":
+                    this.elements.root.setAttribute("dark", "true");
+                    this.configs.colorMode = colorMode;
+                default:
+                    break;
+            }
+            
+        } catch (error) {
+            console.error(`Error setting color mode: ${error}`);
+        }
     }
 
     //#endregion
@@ -217,7 +260,8 @@ class PomodoroClock extends HTMLElement {
             this.remainingTotalTimeMs = this.totalTimeMs;
             this.remainingSessionTimeMs = this.configs.pomodoroLengthMin * 60 * 1000;
             this.alarmAudio.volume = this.configs.alarmVolume;
-            
+            this.setColorMode(this.configs.colorMode);
+
 
             this.loadSession(this.sessionTypes.POMODORO);
             this.updateTimeElements();
@@ -301,27 +345,27 @@ class PomodoroClock extends HTMLElement {
     endSessionHandler() {
         try {
             if (this.remainingSessionTimeMs > 0) this.remainingTotalTimeMs -= this.remainingSessionTimeMs; // Subtract remaining time if the session is ended earlier.
-            
+
             if (this.currentCycleNum <= this.configs.numCycles) {
-    
+
                 if (this.currentSessionType === this.sessionTypes.POMODORO) {
                     this.loadSession(this.currentCycleNum === this.configs.numCycles ? this.sessionTypes.LONGBREAK : this.sessionTypes.SHORTBREAK);
                 } else {
-    
+
                     if (this.currentCycleNum === this.configs.numCycles) {
                         this.restartClock();
                         return;
                     }
-    
+
                     this.currentCycleNum += 1;
                     this.loadSession(this.sessionTypes.POMODORO)
                 }
-    
+
                 this.updateTimeElements();
                 return
-    
+
             }
-    
+
             this.restartClock();
         } catch (error) {
             console.error(`Error ending session: ${error}`);
