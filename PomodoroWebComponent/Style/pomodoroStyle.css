@@ -1,3 +1,20 @@
+
+
+
+
+
+
+/* tem que ajeitar o input de checkbox porque não dá pra selecionar ele pelo tab
+
+burro
+*/
+
+
+
+
+
+
+
 :host {
     --flow-space: 1.5em;
     --margin-space: 1em;
@@ -7,8 +24,8 @@
     --color-not-white: 250, 250, 250;
     --color-not-white-complement: 225, 230, 240;
 
-    --color-not-black: 30, 30, 30;
-    --color-not-black-complement: 10, 15, 15;
+    --color-not-black: 35, 35, 35;
+    --color-not-black-complement: 15, 20, 20;
 
     --color-light-grey: 200, 200, 200;
     --color-dark-grey: 5, 5, 5;
@@ -89,6 +106,10 @@ button {
     width: 100%;
 }
 
+.relative {
+    position: relative;
+}
+
 .center {
     display: inline-block;
     align-content: center;
@@ -157,8 +178,8 @@ button {
     aspect-ratio: 1/1;
 }
 
-.no-display {
-    display: none;
+.hidden {
+    visibility: hidden;
 }
 
 .small-text {

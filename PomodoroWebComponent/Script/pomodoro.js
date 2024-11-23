@@ -106,11 +106,12 @@ class PomodoroClock extends HTMLElement {
                 inputShortBreakLengthMin: this.getElement('[setting="shortBreakLengthMin"]'),
                 inputLongBreakLengthMin: this.getElement('[setting="longBreakLengthMin"]'),
                 inputAutoStart: this.getElement('[setting="autoStart"]'),
+                inputSwitchAutoStart: this.getElement("#pmdr-input-switch-autostart"),
                 inputAlarmVolume: this.getElement('[setting="alarmVolume"]'),
                 buttonResetSettings: this.getElement("#pmdr-button-reset-settings")
             };
 
-            // this.elements.dialogSettings.showModal()
+            this.elements.dialogSettings.showModal()
 
             //Events
             this.elements.buttonStartPause.addEventListener("click", () => {
@@ -122,6 +123,7 @@ class PomodoroClock extends HTMLElement {
             this.elements.formSettings.addEventListener("submit", this.applyFormSettings.bind(this));
             this.elements.buttonResetSettings.addEventListener("click", this.resetSettingsFormToDefault.bind(this));
             this.elements.buttonCloseDialogSettins.addEventListener("click", () => this.elements.dialogSettings.close())
+            this.elements.inputSwitchAutoStart.addEventListener("keypress", () => this.elements.inputAutoStart.click());            
 
         } catch (error) {
             console.error(error)

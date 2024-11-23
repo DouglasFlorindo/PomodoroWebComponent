@@ -1,6 +1,6 @@
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close,pause,play_arrow,replay,settings,skip_next" />
-    
+
 <div id="pmdr-root" class="" debug="false" dark="false">
     <div class="container card">
         <div class="flow wrapper">
@@ -100,18 +100,25 @@
 
 
                             <div class="horizontal-flex space-between">
-                                <label class="" for="pmdr-input-num-cycles"><h2 class="sub-title">Nº of Cycles</h2></label>
+                                <label class="" for="pmdr-input-num-cycles">
+                                    <h2 class="sub-title">Nº of Cycles</h2>
+                                </label>
                                 <input class="rounded slot number-input" id="pmdr-input-num-cycles" setting="numCycles"
                                     type="number" value="4">
                             </div>
 
                             <div class="horizontal-flex space-between">
-                                <label for="pmdr-input-autostart"><h2 class="sub-title">Auto Start</h2></label>
-                                <div class="switch-input">
-                                    <input class="no-display" id="pmdr-input-autostart" setting="autoStart" type="checkbox">
-                                    <label class="slot" aria-label="" for="pmdr-input-autostart">
-                                        
-                                    </label>
+                                <label for="pmdr-input-autostart">
+                                    <h2 class="sub-title">Auto Start</h2>
+                                </label>
+                                <div class="relative">
+                                    <div tabindex="0" class="switch-input" id="pmdr-input-switch-autostart">
+                                        <input class="hidden expand absolute-center" id="pmdr-input-autostart"
+                                            setting="autoStart" type="checkbox">
+                                        <label class="slot" aria-label="" for="pmdr-input-autostart">
+
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -119,7 +126,9 @@
 
 
                             <div class="horizontal-flex space-between">
-                                <label for="pmdr-input-alarm-volume"><h2 class="sub-title">Alarm Volume</h2></label>
+                                <label for="pmdr-input-alarm-volume">
+                                    <h2 class="sub-title">Alarm Volume</h2>
+                                </label>
                                 <input id="pmdr-input-alarm-volume" setting="alarmVolume" type="range" min="0" max="1"
                                     step="0.1" value="0">
                             </div>
@@ -148,7 +157,8 @@
 
             </div>
 
-            <button title="Close settings" class="wrapper  left-top-corner-button" id="pmdr-button-close-dialog-settings">
+            <button title="Close settings" class="wrapper  left-top-corner-button"
+                id="pmdr-button-close-dialog-settings">
                 <div class="center circular small-button">
                     <div class="horizontal-flex">
                         <span class="material-symbols-rounded">
