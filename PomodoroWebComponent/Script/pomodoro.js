@@ -169,6 +169,18 @@ class PomodoroClock extends HTMLElement {
             this.elements.buttonStartPause.setAttribute("mode", this.intervalId === null ? "start" : "pause");
             this.elements.buttonStartPause.getAttribute("mode") === "start" ? this.elements.buttonStartPauseIcon.textContent = "play_arrow" : this.elements.buttonStartPauseIcon.textContent = "pause"
 
+            switch (this.elements.buttonStartPause.getAttribute("mode")) {
+                case "start":
+                    this.elements.buttonStartPauseIcon.textContent = "play_arrow";
+                    this.elements.buttonStartPause.setAttribute("aria-label", "Start timer");
+                    break;
+                case "pause":
+                    this.elements.buttonStartPauseIcon.textContent = "pause";
+                    this.elements.buttonStartPause.setAttribute("aria-label", "Pause timer");
+                default:
+                    break;
+            }
+
         } catch (error) {
             console.error(error);
         }

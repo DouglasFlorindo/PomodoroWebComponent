@@ -28,30 +28,30 @@
             <section id="controls" class="controls">
                 <div class="horizontal-flex space-between">
                     <button title="Restart timer" class="center button circular medium-button red-button"
-                        id="pmdr-button-restart">
+                        id="pmdr-button-restart" aria-label="Restart timer">
                         <div class="horizontal-flex">
-                            <span class="material-symbols-rounded button-icon">
+                            <span class="material-symbols-rounded button-icon" aria-label="">
                                 replay
                             </span>
                         </div>
                     </button>
                     <button title="Play/pause timer" class="center button circular big-button green-button"
-                        id="pmdr-button-start-pause" mode="start">
+                        id="pmdr-button-start-pause" mode="start" aria-label="Play timer">
                         <div class="horizontal-flex">
-                            <span class="material-symbols-rounded button-icon" id="pmdr-button-start-pause-icon">
+                            <span class="material-symbols-rounded button-icon" id="pmdr-button-start-pause-icon" aria-label="">
                                 play
                             </span>
                         </div>
                     </button>
                     <button title="Skip session" class="center button circular medium-button blue-button"
-                        id="pmdr-button-skip">
+                        id="pmdr-button-skip" aria-label="Skip session">
                         <div class="horizontal-flex">
                             <span class="material-symbols-rounded button-icon">
                                 skip_next
                             </span>
                         </div>
                     </button>
-                    <button title="Settings" class="wrapper  left-top-corner-button" id="pmdr-button-settings" popovertarget="pmdr-dialog-settings">
+                    <button title="Settings" class="wrapper  left-top-corner-button" id="pmdr-button-settings" popovertarget="pmdr-dialog-settings" aria-label="Open settings dialog">
                         <div class="center circular small-button">
                             <div class="horizontal-flex">
                                 <span class="material-symbols-rounded">
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <dialog id="pmdr-dialog-settings" class="container wrapper expand" popover>
+    <dialog id="pmdr-dialog-settings" class="container wrapper expand" aria-label="Settings" popover>
         <div class="container card settings-dialog">
             <div class="flow wrapper">
                 <div class="">
@@ -112,10 +112,10 @@
                                     <h2 class="sub-title">Auto Start</h2>
                                 </label>
                                 <div class="relative">
-                                    <div tabindex="0" class="switch-input" id="pmdr-input-switch-autostart">
+                                    <div tabindex="0" class="switch-input" id="pmdr-input-switch-autostart" aria-label="Auto Start">
                                         <input class="hidden expand absolute-center" id="pmdr-input-autostart"
                                             setting="autoStart" type="checkbox">
-                                        <label class="slot" aria-label="" for="pmdr-input-autostart">
+                                        <label class="slot" aria-label="Auto Start" for="pmdr-input-autostart">
 
                                         </label>
                                     </div>
@@ -127,10 +127,10 @@
                                     <h2 class="sub-title">Dark Mode</h2>
                                 </label>
                                 <div class="relative">
-                                    <div tabindex="0" class="switch-input" id="pmdr-input-switch-colormode">
+                                    <div tabindex="0" class="switch-input" id="pmdr-input-switch-colormode" aria-label="Dark Mode">
                                         <input class="hidden expand absolute-center" id="pmdr-input-colormode"
                                             setting="colorMode" type="checkbox">
-                                        <label class="slot" aria-label="" for="pmdr-input-colormode">
+                                        <label class="slot" aria-label="Dark Mode" for="pmdr-input-colormode">
 
                                         </label>
                                     </div>
