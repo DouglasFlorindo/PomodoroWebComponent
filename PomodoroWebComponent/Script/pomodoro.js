@@ -49,6 +49,33 @@ class PomodoroClock extends HTMLElement {
                 console.error('Error loading HTML structure:', error);
             })
 
+        //Custom events 
+        this.newPomodoroEvent = new CustomEvent("newPomodoro", {
+            composed: true,
+            bubbles: true,
+            detail: {
+                settings: () => this.configs
+            }
+        })
+
+        this.sessionEndEvent = new CustomEvent("sessionEnd", {
+            composed: true,
+            bubbles: true,
+            detail: {
+                sessionType: () => this.currentSessionType,
+                cycle: () => this.currentCycleNum
+            }
+        })
+
+        this.pomodoroEndEvent = new CustomEvent("pomodoroEnd", {
+            composed: true,
+            bubbles: true,
+            detail: {
+                totalTime: () => this.totalTimeMs,
+                settings: () => this.configs
+            }
+        })
+
         //#endregion
 
         //#region PomodoroConstructor
@@ -198,7 +225,7 @@ class PomodoroClock extends HTMLElement {
             this.elements.inputAlarmVolume.value = this.configs.alarmVolume;
         } catch (error) {
             console.error(`Error updating settings form: ${error}`);
-            
+
         }
     }
 
@@ -248,7 +275,7 @@ class PomodoroClock extends HTMLElement {
                 default:
                     break;
             }
-            
+
         } catch (error) {
             console.error(`Error setting color mode: ${error}`);
         }
@@ -274,6 +301,7 @@ class PomodoroClock extends HTMLElement {
             this.alarmAudio.volume = this.configs.alarmVolume;
             this.setColorMode(this.configs.colorMode);
 
+            this.dispatchEvent(this.newPomodoroEvent)
 
             this.loadSession(this.sessionTypes.POMODORO);
             this.updateTimeElements();
@@ -351,11 +379,13 @@ class PomodoroClock extends HTMLElement {
         //Don't auto start in the first session.
         if (this.currentCycleNum === 1 && this.currentSessionType === this.sessionTypes.POMODORO) return;
         if (this.configs.autoStart) this.startClock();
-    }
+    }   
 
 
     endSessionHandler() {
         try {
+            this.dispatchEvent(this.sessionEndEvent)
+
             if (this.remainingSessionTimeMs > 0) this.remainingTotalTimeMs -= this.remainingSessionTimeMs; // Subtract remaining time if the session is ended earlier.
 
             if (this.currentCycleNum <= this.configs.numCycles) {
@@ -365,6 +395,7 @@ class PomodoroClock extends HTMLElement {
                 } else {
 
                     if (this.currentCycleNum === this.configs.numCycles) {
+                        this.dispatchEvent(this.pomodoroEndEvent);
                         this.restartClock();
                         return;
                     }
@@ -378,6 +409,7 @@ class PomodoroClock extends HTMLElement {
 
             }
 
+            this.dispatchEvent(this.pomodoroEndEvent);
             this.restartClock();
         } catch (error) {
             console.error(`Error ending session: ${error}`);
