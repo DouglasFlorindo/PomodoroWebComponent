@@ -1,6 +1,6 @@
 class PomodoroClock extends HTMLElement {
 
-    constructor(configs = {}) {
+    constructor(settings = {}) {
 
         //#region WebComponentConstructor
 
@@ -54,7 +54,7 @@ class PomodoroClock extends HTMLElement {
             composed: true,
             bubbles: true,
             detail: {
-                settings: () => this.configs
+                settings: () => this.settings
             }
         })
 
@@ -72,7 +72,7 @@ class PomodoroClock extends HTMLElement {
             bubbles: true,
             detail: {
                 totalTime: () => this.totalTimeMs,
-                settings: () => this.configs
+                settings: () => this.settings
             }
         })
 
@@ -80,14 +80,14 @@ class PomodoroClock extends HTMLElement {
 
         //#region PomodoroConstructor
 
-        this.configs = {
-            numCycles: configs.numCycles || 4, // A cycle is a pomodoro session + a pause session.
-            pomodoroLengthMin: configs.pomodoroLengthMin || 25,
-            shortBreakLengthMin: configs.shortBreakLengthMin || 5,
-            longBreakLengthMin: configs.longBreakLengthMin || 15,
-            autoStart: configs.autoStart || false,
-            alarmVolume: configs.alarmVolume || 0,
-            colorMode: configs.colorMode || "light"
+        this.settings = {
+            numCycles: settings.numCycles || 4, // A cycle is a pomodoro session + a pause session.
+            pomodoroLengthMin: settings.pomodoroLengthMin || 25,
+            shortBreakLengthMin: settings.shortBreakLengthMin || 5,
+            longBreakLengthMin: settings.longBreakLengthMin || 15,
+            autoStart: settings.autoStart || false,
+            alarmVolume: settings.alarmVolume || 0,
+            colorMode: settings.colorMode || "light"
         }
 
         this.sessionTypes = {
@@ -180,7 +180,7 @@ class PomodoroClock extends HTMLElement {
             this.elements.SVGCircleProgressBar.setAttribute("stroke-dashoffset", offset);
 
             // Updates cycle counter
-            this.elements.textCycle.textContent = `${String(this.currentCycleNum)}/${String(this.configs.numCycles)}`;
+            this.elements.textCycle.textContent = `${String(this.currentCycleNum)}/${String(this.settings.numCycles)}`;
 
             // Updates session type
             this.elements.textSessionType.textContent = `${this.currentSessionType}`
@@ -216,13 +216,13 @@ class PomodoroClock extends HTMLElement {
 
     updateFormSettings() {
         try {
-            this.elements.inputNumCycles.value = this.configs.numCycles;
-            this.elements.inputPomodoroLengthMin.value = this.configs.pomodoroLengthMin;
-            this.elements.inputShortBreakLengthMin.value = this.configs.shortBreakLengthMin;
-            this.elements.inputLongBreakLengthMin.value = this.configs.longBreakLengthMin;
-            this.elements.inputAutoStart.checked = this.configs.autoStart;
-            this.elements.inputColorMode.checked = this.configs.colorMode === "dark" ? true : false;
-            this.elements.inputAlarmVolume.value = this.configs.alarmVolume;
+            this.elements.inputNumCycles.value = this.settings.numCycles;
+            this.elements.inputPomodoroLengthMin.value = this.settings.pomodoroLengthMin;
+            this.elements.inputShortBreakLengthMin.value = this.settings.shortBreakLengthMin;
+            this.elements.inputLongBreakLengthMin.value = this.settings.longBreakLengthMin;
+            this.elements.inputAutoStart.checked = this.settings.autoStart;
+            this.elements.inputColorMode.checked = this.settings.colorMode === "dark" ? true : false;
+            this.elements.inputAlarmVolume.value = this.settings.alarmVolume;
         } catch (error) {
             console.error(`Error updating settings form: ${error}`);
 
@@ -247,13 +247,13 @@ class PomodoroClock extends HTMLElement {
 
     applyFormSettings() {
         try {
-            this.configs.numCycles = parseInt(this.elements.inputNumCycles.value) || 4;
-            this.configs.pomodoroLengthMin = parseInt(this.elements.inputPomodoroLengthMin.value) || 25;
-            this.configs.shortBreakLengthMin = parseInt(this.elements.inputShortBreakLengthMin.value) || 5;
-            this.configs.longBreakLengthMin = parseInt(this.elements.inputLongBreakLengthMin.value) || 15;
-            this.configs.autoStart = this.elements.inputAutoStart.checked || false;
-            this.configs.colorMode = this.elements.inputColorMode.checked ? "dark" : "light";
-            this.configs.alarmVolume = parseFloat(this.elements.inputAlarmVolume.value) || 0;
+            this.settings.numCycles = parseInt(this.elements.inputNumCycles.value) || 4;
+            this.settings.pomodoroLengthMin = parseInt(this.elements.inputPomodoroLengthMin.value) || 25;
+            this.settings.shortBreakLengthMin = parseInt(this.elements.inputShortBreakLengthMin.value) || 5;
+            this.settings.longBreakLengthMin = parseInt(this.elements.inputLongBreakLengthMin.value) || 15;
+            this.settings.autoStart = this.elements.inputAutoStart.checked || false;
+            this.settings.colorMode = this.elements.inputColorMode.checked ? "dark" : "light";
+            this.settings.alarmVolume = parseFloat(this.elements.inputAlarmVolume.value) || 0;
         } catch (error) {
             console.error(`Error applying settings: ${error}`);
         }
@@ -267,11 +267,11 @@ class PomodoroClock extends HTMLElement {
             switch (colorMode) {
                 case "light":
                     this.elements.root.setAttribute("dark", "false");
-                    this.configs.colorMode = colorMode;
+                    this.settings.colorMode = colorMode;
                     break;
                 case "dark":
                     this.elements.root.setAttribute("dark", "true");
-                    this.configs.colorMode = colorMode;
+                    this.settings.colorMode = colorMode;
                 default:
                     break;
             }
@@ -292,14 +292,14 @@ class PomodoroClock extends HTMLElement {
             this.currentCycleNum = 1;
             this.currentSessionType = this.sessionTypes.POMODORO;
             this.totalTimeMs = (
-                + (this.configs.numCycles * this.configs.pomodoroLengthMin * 60 * 1000)
-                + ((this.configs.numCycles - 1) * this.configs.shortBreakLengthMin * 60 * 1000)
-                + (this.configs.longBreakLengthMin * 60 * 1000)
+                + (this.settings.numCycles * this.settings.pomodoroLengthMin * 60 * 1000)
+                + ((this.settings.numCycles - 1) * this.settings.shortBreakLengthMin * 60 * 1000)
+                + (this.settings.longBreakLengthMin * 60 * 1000)
             );
             this.remainingTotalTimeMs = this.totalTimeMs;
-            this.remainingSessionTimeMs = this.configs.pomodoroLengthMin * 60 * 1000;
-            this.alarmAudio.volume = this.configs.alarmVolume;
-            this.setColorMode(this.configs.colorMode);
+            this.remainingSessionTimeMs = this.settings.pomodoroLengthMin * 60 * 1000;
+            this.alarmAudio.volume = this.settings.alarmVolume;
+            this.setColorMode(this.settings.colorMode);
 
             this.dispatchEvent(this.newPomodoroEvent)
 
@@ -357,16 +357,16 @@ class PomodoroClock extends HTMLElement {
 
         switch (sessionType) {
             case this.sessionTypes.POMODORO:
-                this.remainingSessionTimeMs = this.configs.pomodoroLengthMin * 60 * 1000;
+                this.remainingSessionTimeMs = this.settings.pomodoroLengthMin * 60 * 1000;
                 break;
             case this.sessionTypes.SHORTBREAK:
-                this.remainingSessionTimeMs = this.configs.shortBreakLengthMin * 60 * 1000;
+                this.remainingSessionTimeMs = this.settings.shortBreakLengthMin * 60 * 1000;
                 break;
             case this.sessionTypes.LONGBREAK:
-                this.remainingSessionTimeMs = this.configs.longBreakLengthMin * 60 * 1000;
+                this.remainingSessionTimeMs = this.settings.longBreakLengthMin * 60 * 1000;
                 break;
             default:
-                this.remainingSessionTimeMs = this.configs.pomodoroLengthMin * 60 * 1000;
+                this.remainingSessionTimeMs = this.settings.pomodoroLengthMin * 60 * 1000;
                 break;
         }
 
@@ -378,7 +378,7 @@ class PomodoroClock extends HTMLElement {
 
         //Don't auto start in the first session.
         if (this.currentCycleNum === 1 && this.currentSessionType === this.sessionTypes.POMODORO) return;
-        if (this.configs.autoStart) this.startClock();
+        if (this.settings.autoStart) this.startClock();
     }   
 
 
@@ -388,13 +388,13 @@ class PomodoroClock extends HTMLElement {
 
             if (this.remainingSessionTimeMs > 0) this.remainingTotalTimeMs -= this.remainingSessionTimeMs; // Subtract remaining time if the session is ended earlier.
 
-            if (this.currentCycleNum <= this.configs.numCycles) {
+            if (this.currentCycleNum <= this.settings.numCycles) {
 
                 if (this.currentSessionType === this.sessionTypes.POMODORO) {
-                    this.loadSession(this.currentCycleNum === this.configs.numCycles ? this.sessionTypes.LONGBREAK : this.sessionTypes.SHORTBREAK);
+                    this.loadSession(this.currentCycleNum === this.settings.numCycles ? this.sessionTypes.LONGBREAK : this.sessionTypes.SHORTBREAK);
                 } else {
 
-                    if (this.currentCycleNum === this.configs.numCycles) {
+                    if (this.currentCycleNum === this.settings.numCycles) {
                         this.dispatchEvent(this.pomodoroEndEvent);
                         this.restartClock();
                         return;
